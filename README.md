@@ -18,12 +18,12 @@ The front of the PCB:
 
 Bill of materials:
 
-C1, 100nF
-SW1 Tactile 6x6 momentary switch
-LED1, LED2, LED3, LED4  3mm LED
-PIEZO 5mm to 7.62mm pitch piezo speaker
-R6 10k
-R1, R2, R3, R4  220R
-R5  47k
-USB1  USB B 180 degree socket
-U1  dip8 attiny13
+-C1, 100nF
+-SW1 Tactile 6x6 momentary switch
+-LED1, LED2, LED3, LED4  3mm LED
+-PIEZO 5mm to 7.62mm pitch piezo speaker
+-R6 10k
+-R1, R2, R3, R4  220R
+-R5  47k
+-USB1  USB B 180 degree socket
+-U1  dip8 attiny13
