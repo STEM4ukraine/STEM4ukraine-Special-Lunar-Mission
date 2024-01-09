@@ -6,6 +6,8 @@ A fun school STEM project demonstrating use of GPIO for detecting button presses
 
 A linear feedback shift register is used to produce the white noise on landing.
 
+The firmware can be compiled and uploaded using the Arduino IDE. 
+
 Celebrate engineering, quality control and technical prowess of the russian federation with the simulation of the crash landing of the lunar probe onto the moon!
 
 The schematic:
