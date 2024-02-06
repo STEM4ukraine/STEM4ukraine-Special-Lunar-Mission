@@ -17,16 +17,15 @@
  */
 
 
-// for attiny13 this uses https://github.com/MCUdude/MicroCore
-// which can be accessed in the Arduino IDE boards manager by adding
+// this uses https://github.com/MCUdude/MicroCore
+// which can be accessed in the boards manager by adding
 //  https://mcudude.github.io/MicroCore/package_MCUdude_MicroCore_index.json
 
-// the code has been uploaded using old USB-ASP programmer clone
-// and using the "USB-ASP slow (Microcore)" setting in the arduino IDE
+// the code has been uploaded using an old USB-ASP programmer clone
+// and the "USB-ASP slow (Microcore)" setting in the arduino IDE
+// uses 1.2MHz internal oscillator on attiny13
 
-// tested with 1.2MHz internal oscillator on attiny13
-
-#define DITMS 900 // timing is iffy with Microcore.
+#define DITMS 900
 #define DAHMS DITMS*3
 
 #define LED1 0b00001000
@@ -36,6 +35,7 @@
 
 #define LFSR_INIT 0xfeed // non-zero seed value for Galois LFSR used to generate the white noise
 #define LFSR_MASK 0x8016 // polynomial from http://users.ece.cmu.edu/~koopman/lfsr/
+
 
 uint8_t button = 0;
 
@@ -62,9 +62,9 @@ void delay_with_polling(uint16_t delay_ms) {
   }
 }
 
-// note period increases from note_per down to (note_per + 240) during call;
-// with four consecutive calls, note_per can begin at 330 and finish at 1050 period
-void playLanding(uint16_t note_per) {
+// note period increase from note_per to (note_per + 240) during call;
+// with four consecutive calls, note_per can begin at 330 and finish at 1290 period
+void play_descent(uint16_t note_per) {
   uint8_t i,k;
   uint16_t cycles, new_note;
 
@@ -82,8 +82,7 @@ void playLanding(uint16_t note_per) {
   }
 }
 
-// galois linear feedback shift register to produce the psuedorandom noise
-void playNoise(uint16_t cycles) {
+void play_landing(uint16_t cycles) {
   uint8_t k,i;
 
   static uint16_t lfsr = LFSR_INIT; 
@@ -177,7 +176,7 @@ void emergency_beacon() {
 }
 
 // main loop polls the button and
-// starts the special lunar operation
+// starts special lunar operation
 // if the button has been pressed
 void loop() {
 
@@ -186,18 +185,18 @@ void loop() {
   while(1) {
     if (poll_button()) {
       button = 0;
-      playLanding(330);
+      play_descent(330); //690
       PORTB ^= LED4; // on
-      playLanding(570);
+      play_descent(570); //810
       PORTB ^= LED4; // off
       PORTB ^= LED3; // on
-      playLanding(810);
+      play_descent(810); //930
       PORTB ^= LED3; // off
       PORTB ^= LED2; // on
-      playLanding(1050);
+      play_descent(1050); //1050
       PORTB ^= LED2; // off
       PORTB ^= LED1; // on
-      playNoise(180);
+      play_landing(180);
       PORTB ^= LED1; // off
       delay(1000);
       emergency_beacon();
